@@ -27,6 +27,7 @@
 ##########################################################################
 """On-screen missing configuration warning and touchscreen test."""
 
+from random import randint
 from sys import stderr
 from tkinter import Tk, Label, Button
 
@@ -58,39 +59,24 @@ class SelfMovingButton(Button):
     @property
     def random_coordinates(self):
         """Returns random coordinates."""
-        from random import randint
         max_x, max_y = self.max_coordinates
         return (randint(0, max_x), randint(self.yoffset, max_y))
 
-
     def move(self):
         """Moves the button randomly."""
-        print('### Move event ###')
-
-        try:
-            x_coord, y_coord = self.random_coordinates
-        except SystemError:
-            self['text'] = 'Waiting for RNG.'
-            print('Random number generator is not yet ready.', file=stderr,
-                  flush=True)
-        else:
-            self['text'] = BUTTON_TEXT
-            self.place_configure(x=x_coord, y=y_coord)
-            print('New random location: {}x{}'.format(x_coord, y_coord))
-
-        print('### End event ###', flush=True)
+        x_coord, y_coord = self.random_coordinates
+        self['text'] = BUTTON_TEXT
+        self.place_configure(x=x_coord, y=y_coord)
 
 
 def main():
     """Runs the on-screen warning and test."""
 
-    print('Starting up.')
     gui = Tk()
     gui.configure(background='black')
     gui.attributes("-fullscreen", True)
     screen_size = '{}x{}'.format(
         gui.winfo_screenwidth(), gui.winfo_screenheight())
-    print('Screen size is:', screen_size)
     gui.geometry(screen_size)
     label = Label(
         gui, text='WARNING: Not configured!', font=FONT, background='black',
@@ -99,9 +85,9 @@ def main():
     btn = SelfMovingButton(
         gui, yoffset=label.winfo_height(), text=BUTTON_TEXT)
     btn.pack()
-    print('Entering main loop.', flush=True)
     gui.mainloop()
 
 
 if __name__ == '__main__':
     main()
+
