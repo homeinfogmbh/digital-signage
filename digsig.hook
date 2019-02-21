@@ -5,6 +5,6 @@ Type = Package
 Target = digital-signage
 
 [Action]
-Description = Updating ownership of digital signage directories
+Description = Updating ownership of digital signage directories...
 When = PostTransaction
 Exec = /usr/bin/chown -R digsig.digsig /usr/share/digsig
