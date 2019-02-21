@@ -32,7 +32,7 @@ Wants=xorg-server.service
 Type=simple
 User=digsig
 Group=digsig
-ExecStart=/usr/bin/x0vncserver -display :0 -passwordfile /var/digsig/vncpasswd
+ExecStart=/usr/bin/x0vncserver -display :0 -passwordfile /var/lib/digsig/vncpasswd
 Restart=on-failure
 RestartSec=3
 

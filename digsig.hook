@@ -7,4 +7,4 @@ Target = digital-signage
 [Action]
 Description = Updating ownership of digital signage directories...
 When = PostTransaction
-Exec = /usr/bin/chown -R digsig.digsig /var/digsig /usr/share/digsig
+Exec = /usr/bin/chown -R digsig.digsig /var/lib/digsig /usr/share/digsig
