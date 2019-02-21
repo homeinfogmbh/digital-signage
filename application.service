@@ -1,0 +1,24 @@
+#  application.service Digital Signage Application autostart
+#
+#  (C) 2017: HOMEINFO - Digitale Informationssysteme GmbH
+#  All rights reserved.
+#
+#  Maintainer: Richard Neumann <r dot neumann at homeinfo period de>
+#
+####################################################################
+
+[Unit]
+Description=HOMEINFO Digital Signage Flash Application
+Wants=xorg-server.service
+
+[Service]
+User=digsig
+Group=digsig
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/application --quiet
+ExecStartPost=/usr/bin/kiosk
+Restart=on-failure
+RestartSec=1
+
+[Install]
+WantedBy=graphical.target

@@ -1,0 +1,20 @@
+# This file is part of the "digital-signage" package by
+#
+# HOMEINFO - Digitale Informationssysteme GmbH
+#
+# Maintainer: Richard Neumann <r.neumann@homeinfo.de>
+#
+#
+# The digital signage user "digsig" may:
+#
+# * reload the system daemons
+# * restart the digital signage application
+#
+# without password due to necessity of automation.
+#
+############################################################
+
+Cmnd_Alias DAEMON_RELOAD = /usr/bin/systemctl daemon-reload
+Cmnd_Alias APPLICATION_RESTART = /usr/bin/systemctl restart application.service
+
+digsig ALL = NOPASSWD: DAEMON_RELOAD, APPLICATION_RESTART

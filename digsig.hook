@@ -1,0 +1,10 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = digital-sigange
+
+[Action]
+Description = Update ownership of digital sigange directories
+When = PostTransaction
+Exec = /usr/bin/chown -R digsig.digsig /usr/share/digsig

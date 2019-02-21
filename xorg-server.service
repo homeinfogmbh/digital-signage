@@ -1,0 +1,42 @@
+#  xorg-server.service - Xserver systemd service for kiosk mode.
+#
+#  This file is part of digital-signage.
+#
+#  digital-signage is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  digital-signage is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with digital-signage.  If not, see <http://www.gnu.org/licenses/>.
+#
+#  This unit provides a service to automatically login
+#  the digital signage user to a certain terminal.
+#
+#  (C) 2015-2017: HOMEINFO - Digitale Informationssysteme GmbH
+#
+#  Maintainer: Richard Neumann <r dot neumann at homeinfo period de>
+#
+###############################################################################
+
+[Unit]
+Description=Plain X.org server
+After=plymouth-quit-wait.service
+Conflicts=getty@tty7.service display-manager.service
+
+[Service]
+Type=simple
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/Xorg vt7 -nolisten tcp -noreset
+ExecStartPost=/usr/bin/xorg-server-wait-ready
+ExecStartPost=/usr/bin/xsetroot -cursor_name gobbler
+ExecStartPost=/etc/xserverrc
+Restart=on-failure
+
+[Install]
+WantedBy=graphical.target

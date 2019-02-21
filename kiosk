@@ -1,0 +1,83 @@
+#! /bin/bash
+#
+#  kiosk - Disables screen blankening on the respective display.
+#
+#  This file is part of digital-signage.
+#
+#  digital-signage is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  digital-signage is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with digital-signage.  If not, see <http://www.gnu.org/licenses/>.
+#
+#  This unit provides a service to automatically login
+#  the digital signage user to a certain terminal.
+#
+#  (C) 2015-2017: HOMEINFO - Digitale Informationssysteme GmbH
+#
+#  Maintainer: Richard Neumann <r dot neumann at homeinfo period de>
+#
+###############################################################################
+
+XSET=/usr/bin/xset
+
+GRACETIME=30
+WAIT_TIME=0
+
+
+# Wait for X server to start
+wait_for_x() {
+    while ! ${XSET} q &> /dev/null; do
+        if [ ${WAIT_TIME} -lt ${GRACETIME} ]; then
+            sleep 1
+        else
+            echo "X server did not come up after ${WAIT_TIME} seconds" 1>&2
+            return 10
+        fi
+
+        let WAIT_TIME++
+    done
+
+    echo "X server took ${WAIT_TIME} seconds to start up"
+    return 0
+}
+
+
+# Disable screen blankening
+disable_screen_blankening() {
+    if ! ${XSET} s 0 0 &> /dev/null; then
+        echo "Could not disable screen blankening (s 0 0)" 1>&2
+        return 1
+    elif ! ${XSET} s noblank &> /dev/null; then
+        echo "Could not disable screen blankening (s noblank)" 1>&2
+        return 2
+    elif ! ${XSET} s off &> /dev/null; then
+        echo "Could not disable screen blankening (s off)" 1>&2
+        return 3
+    elif ! ${XSET} dpms 0 0 0 &> /dev/null; then
+        echo "Could not disable DPMS (dpms 0 0 0)" 1>&2
+        return 4
+    elif ! ${XSET} -dpms &> /dev/null; then
+        echo "Could not disable DPMS (-dpms)" 1>&2
+        return 5
+    else
+        echo "Successfully disabled screen blankening on ${DISPLAY}"
+        return 0
+    fi
+}
+
+
+if ! wait_for_x; then
+    exit 1
+elif ! disable_screen_blankening; then
+    exit 2
+else
+    exit 0
+fi

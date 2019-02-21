@@ -1,0 +1,22 @@
+#! /usr/bin/bash
+
+MAX_TIME=15
+USAGE="Usage: $0 [MAX_TIME]
+
+Waits for the xorg-server to start up for MAX_TIME seconds.
+If not specified, MAX_TIME defaults to ${MAX_TIME}."
+
+if [ $# -eq 1 ]; then
+    MAX_TIME=${1}
+elif [ $# -gt 1 ]; then
+    echo "${USAGE}" >&2
+    exit 1
+fi
+
+while [ "${MAX_TIME}" -gt 0 ]; do
+    /usr/bin/xrandr > /dev/null && exit 0
+    (( MAX_TIME-- ))
+    /usr/bin/sleep 1
+done
+
+exit 3
