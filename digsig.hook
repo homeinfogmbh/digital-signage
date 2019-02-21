@@ -2,7 +2,7 @@
 Operation = Install
 Operation = Upgrade
 Type = Package
-Target = digital-sigange
+Target = digital-signage
 
 [Action]
 Description = Update ownership of digital sigange directories
