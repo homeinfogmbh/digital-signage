@@ -32,7 +32,8 @@ Wants=xorg-server.service
 User=digsig
 Group=digsig
 Environment=DISPLAY=:0
-ExecStart=/usr/bin/application --quiet
+StandardError=null
+ExecStart=/opt/adobe-air-sdk/bin/adl -nodebug /usr/lib/application-air/META-INF/AIR/application.xml /usr/lib/application-air
 ExecStartPost=/usr/bin/kiosk
 Restart=on-failure
 RestartSec=3
