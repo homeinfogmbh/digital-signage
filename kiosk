@@ -55,22 +55,30 @@ disable_screen_blankening() {
     if ! ${XSET} s 0 0 &> /dev/null; then
         echo "Could not disable screen blankening (s 0 0)."
         return 1
-    elif ! ${XSET} s noblank &> /dev/null; then
+    fi
+
+    if ! ${XSET} s noblank &> /dev/null; then
         echo "Could not disable screen blankening (s noblank)."
         return 2
-    elif ! ${XSET} s off &> /dev/null; then
+    fi
+
+    if ! ${XSET} s off &> /dev/null; then
         echo "Could not disable screen blankening (s off)."
         return 3
-    elif ! ${XSET} dpms 0 0 0 &> /dev/null; then
+    fi
+
+    if ! ${XSET} dpms 0 0 0 &> /dev/null; then
         echo "Could not disable DPMS (dpms 0 0 0)."
         return 4
-    elif ! ${XSET} -dpms &> /dev/null; then
+    fi
+
+    if ! ${XSET} -dpms &> /dev/null; then
         echo "Could not disable DPMS (-dpms)."
         return 5
-    else
-        echo "Successfully disabled screen blankening on ${DISPLAY}."
-        return 0
     fi
+
+    echo "Successfully disabled screen blankening on ${DISPLAY}."
+    return 0
 }
 
 
