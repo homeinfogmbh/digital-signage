@@ -37,9 +37,12 @@ ExecStart=/opt/adobe-air-sdk/bin/adl -nodebug /usr/lib/application-air/META-INF/
 ExecStartPost=/usr/bin/kiosk
 Restart=on-failure
 RestartSec=3
-OOMScoreAdjust=1000	# Make OOM killing likely.
-MemoryAccounting=yes	# Enable cgroup memory limiting.
-MemoryMax=60%		# Limit used memory to max. 60% of installed memory.
+# Make OOM killing likely.
+OOMScoreAdjust=1000
+# Enable cgroup memory limiting.
+MemoryAccounting=yes
+# Limit used memory to max. 60% of installed memory.
+MemoryMax=60%
 
 [Install]
 WantedBy=graphical.target
