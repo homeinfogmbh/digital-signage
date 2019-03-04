@@ -20,37 +20,37 @@
 #  This unit provides a service to automatically login
 #  the digital signage user to a certain terminal.
 #
-#  (C) 2015-2017: HOMEINFO - Digitale Informationssysteme GmbH
+#  (C) 2015-2019: HOMEINFO - Digitale Informationssysteme GmbH
 #
 #  Maintainer: Richard Neumann <r dot neumann at homeinfo period de>
 #
 ###############################################################################
 
 XSET=/usr/bin/xset
-
 GRACETIME=30
-WAIT_TIME=0
 
 
-# Wait for X server to start
+# Waits for X server to start.
 wait_for_x() {
+    local WAITED=0
+
     while ! ${XSET} q &> /dev/null; do
-        if [ ${WAIT_TIME} -lt ${GRACETIME} ]; then
+        if [ ${WAITED} -lt ${GRACETIME} ]; then
             sleep 1
         else
-            echo "X server did not come up after ${WAIT_TIME} seconds."
+            echo "X server did not come up after ${WAITED} seconds."
             return 10
         fi
 
-        let WAIT_TIME++
+        (( WAITED++ ))
     done
 
-    echo "X server took ${WAIT_TIME} seconds to start up."
+    echo "X server took ${WAITED} seconds to start up."
     return 0
 }
 
 
-# Disable screen blankening
+# Disables screen blankening.
 disable_screen_blankening() {
     if ! ${XSET} s 0 0 &> /dev/null; then
         echo "Could not disable screen blankening (s 0 0)."
@@ -74,10 +74,4 @@ disable_screen_blankening() {
 }
 
 
-if ! wait_for_x; then
-    exit 1
-elif ! disable_screen_blankening; then
-    exit 2
-else
-    exit 0
-fi
+wait_for_x && disable_screen_blankening
