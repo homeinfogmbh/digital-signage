@@ -28,6 +28,7 @@
 
 XSET=/usr/bin/xset
 GRACETIME=30
+XSERVERRC=/etc/xserverrc
 
 
 # Waits for X server to start.
@@ -83,3 +84,7 @@ disable_screen_blankening() {
 
 
 wait_for_x && disable_screen_blankening
+
+if [ -f "${XSERVERRC}" ]; then
+    source "${XSERVERRC}"
+fi

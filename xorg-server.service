@@ -18,7 +18,7 @@
 #  This unit provides a service to automatically login
 #  the digital signage user to a certain terminal.
 #
-#  (C) 2015-2017: HOMEINFO - Digitale Informationssysteme GmbH
+#  (C) 2015-2019: HOMEINFO - Digitale Informationssysteme GmbH
 #
 #  Maintainer: Richard Neumann <r dot neumann at homeinfo period de>
 #
@@ -33,9 +33,8 @@ Conflicts=getty@tty7.service display-manager.service
 Type=simple
 Environment=DISPLAY=:0
 ExecStart=/usr/bin/Xorg vt7 -nolisten tcp -noreset
-ExecStartPost=/usr/bin/xorg-server-wait-ready
 ExecStartPost=/usr/bin/xsetroot -cursor_name gobbler
-ExecStartPost=/etc/xserverrc
+ExecStartPost=/usr/bin/kiosk
 Restart=on-failure
 
 [Install]
