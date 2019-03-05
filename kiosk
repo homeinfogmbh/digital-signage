@@ -86,5 +86,8 @@ disable_screen_blankening() {
 wait_for_x && disable_screen_blankening
 
 if [ -f "${XSERVERRC}" ]; then
+    echo "Invoking ${XSERVERRC}."
     source "${XSERVERRC}"
+else
+    echo "Warning: ${XSERVERRC} is missing." >&2
 fi
