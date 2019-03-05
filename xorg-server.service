@@ -33,9 +33,13 @@ Conflicts=getty@tty7.service display-manager.service
 Type=simple
 Environment=DISPLAY=:0
 ExecStart=/usr/bin/Xorg vt7 -nolisten tcp -noreset
-ExecStartPost=/usr/bin/xsetroot -cursor_name gobbler
+# Wait for server to be ready and set kiosk configuration.
 ExecStartPost=/usr/bin/kiosk
+# Set chicken as cursor to be able to test touch screen
+# and see whether X server is actually running.
+ExecStartPost=/usr/bin/xsetroot -cursor_name gobbler
 Restart=on-failure
+RestartSec=3
 
 [Install]
 WantedBy=graphical.target
