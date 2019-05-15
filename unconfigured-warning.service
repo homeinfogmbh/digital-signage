@@ -1,4 +1,4 @@
-#  application.service Digital Signage Application autostart
+#  unconfigured-warning.service - Warning message on unconfigured systems
 #
 #  This file is part of digital-signage.
 #
@@ -25,24 +25,16 @@
 ###############################################################################
 
 [Unit]
-Description=HOMEINFO Digital Signage Flash Application
+Description=On-screen warning for unconfigured systems.
 Wants=xorg-server.service
 
 [Service]
 User=digsig
 Group=digsig
 Environment=DISPLAY=:0
-StandardError=null
-ExecStart=/opt/adobe-air-sdk/bin/adl -nodebug /usr/lib/application-air/META-INF/AIR/application.xml /usr/lib/application-air
+ExecStart=/usr/bin/xmessage -center "Not configured."
 ExecStartPost=/usr/bin/kiosk
-Restart=on-failure
-RestartSec=3
-# Make OOM killing likely.
-OOMScoreAdjust=1000
-# Enable cgroup memory limiting.
-MemoryAccounting=yes
-# Limit used memory to max. 60% of installed memory.
-MemoryMax=60%
+Restart=always
 
 [Install]
 WantedBy=graphical.target
