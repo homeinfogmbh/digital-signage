@@ -43,6 +43,8 @@ OOMScoreAdjust=1000
 MemoryAccounting=yes
 # Limit used memory to max. 60% of installed memory.
 MemoryMax=60%
+# Restart the application after one week.
+RuntimeMaxSec=1week
 
 [Install]
 WantedBy=graphical.target
