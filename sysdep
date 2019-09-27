@@ -69,7 +69,7 @@ def address_to_string(address):
     return f'{street} {house_number}, {zip_code} {city}'
 
 
-def print_deployment(json):
+def make_table(json):
     """Prints the deployment information from a JSON object."""
 
     table = Table()
@@ -109,7 +109,8 @@ def main():
     except HTTPError as http_error:
         print('Got HTTP error:', http_error.file.read().decode())
     else:
-        print_deployment(json)
+        table = make_table(json)
+        print(table)
 
 
 if __name__ == '__main__':
