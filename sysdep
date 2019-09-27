@@ -1,0 +1,71 @@
+#! /usr/bin/env python3
+"""Print information about the system deployment."""
+
+from json import load
+from urllib.request import urlopen
+
+DEPLOYMENT_URL = 'http://10.8.0.1/appcmd/deployment'
+
+
+def get_json(url):
+    """Returns a JSON response from the given URL."""
+
+    with urlopen(url) as response:
+        return load(response)
+
+
+def println(caption, value):
+    """Prints a bold caption and a tabbed in value."""
+
+    print('\\033[34;1m', caption, '\\033[2m:\t', value, flush=True, sep='')
+
+
+def print_address(caption, address):
+    """Prints the respective address object."""
+
+    street = address['street']
+    house_number = address['houseNumber']
+    zip_code = address['zipCode']
+    city = address['city']
+    println(caption, f'{street} {house_number}, {zip_code} {city}')
+
+
+def print_deployment(json):
+    """Prints the deployment information from a JSON object."""
+
+    println('Customer ID', json['customer']['id'])
+    println('Customer name', json['customer']['company']['name'])
+    println('Type', json['type'])
+    println('Connection', json['connection'])
+    print_address('Address', json['address'])
+    lpt_address = json.get('lptAddress')
+
+    if lpt_address:
+        print_address('LPT address', lpt_address)
+
+    scheduled = json.get('scheduled')
+
+    if scheduled:
+        println('Scheduled', scheduled)
+
+    annotation = json.get('annotation')
+
+    if annotation:
+        println('Annotation', annotation)
+
+    println('Testing', '✓' if json['testing'] else '✗')
+
+    timestamp = json.get('timestamp')
+
+    if timestamp:
+        println('Timestamp', timestamp)
+
+
+def main():
+    """Runs the script."""
+
+    print_deployment(get_json(DEPLOYMENT_URL))
+
+
+if __name__ == '__main__':
+    main()
