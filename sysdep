@@ -14,7 +14,7 @@ CLEAR = '\033[0m'
 class Table(dict):
     """Key-value table."""
 
-    def __new__(cls, indent=' ', spacing='  '):     # pylint: disable=W0613
+    def __new__(cls, indent=' ', spacing='\t'):     # pylint: disable=W0613
         """Constructor override."""
         return super().__new__(cls)
 
