@@ -34,7 +34,7 @@ class Table(dict):
 
     def __str__(self):
         """Returns the table as string."""
-        linesep.join(self.lines())
+        return linesep.join(self.lines())
 
     def items(self):
         """Yields ordered key value pairs."""
