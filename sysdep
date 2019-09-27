@@ -16,7 +16,7 @@ class Table(dict):
 
     def __new__(cls, indent=' ', spacing='  '):     # pylint: disable=W0613
         """Constructor override."""
-        return super().__new__()
+        return super().__new__(cls)
 
     def __init__(self, indent=' ', spacing='  '):
         """Initializes the key order list."""
