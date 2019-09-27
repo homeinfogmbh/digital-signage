@@ -5,6 +5,8 @@ from json import load
 from urllib.request import urlopen
 
 DEPLOYMENT_URL = 'http://10.8.0.1/appcmd/deployment'
+BOLD = '\033[1m'
+CLEAR = '\033[0m'
 
 
 def get_json(url):
@@ -14,20 +16,21 @@ def get_json(url):
         return load(response)
 
 
-def println(caption, value):
+def println(caption, value, *, indent=''):
     """Prints a bold caption and a tabbed in value."""
 
-    print('\\033[34;1m', caption, '\\033[2m:\t', value, flush=True, sep='')
+    print(BOLD, caption, CLEAR, indent, value, sep='', flush=True)
 
 
-def print_address(caption, address):
+def print_address(caption, address, *, indent=''):
     """Prints the respective address object."""
 
     street = address['street']
     house_number = address['houseNumber']
     zip_code = address['zipCode']
     city = address['city']
-    println(caption, f'{street} {house_number}, {zip_code} {city}')
+    text = f'{street} {house_number}, {zip_code} {city}'
+    println(caption, text, indent=indent)
 
 
 def print_deployment(json):
