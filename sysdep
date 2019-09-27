@@ -49,7 +49,7 @@ class Table(dict):
             indent_factor = maxlen - len(key)
             indentation = self.indent * indent_factor
             indentation += self.spacing
-            yield BOLD + f'{key}:' + CLEAR + indentation + value
+            yield BOLD + f'{key}:' + CLEAR + indentation + str(value)
 
 
 def get_json(url):
