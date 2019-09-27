@@ -3,6 +3,7 @@
 
 from json import load
 from os import linesep
+from sys  import stderr
 from urllib.error import HTTPError
 from urllib.request import urlopen
 
@@ -109,10 +110,11 @@ def main():
     try:
         json = get_json(DEPLOYMENT_URL)
     except HTTPError as http_error:
-        print('Got HTTP error:', http_error.file.read().decode())
+        text = http_error.file.read().decode()
+        print('Got HTTP error:', text, flush=True, file=stderr)
     else:
         table = make_table(json)
-        print(table)
+        print(table, flush=True)
 
 
 if __name__ == '__main__':
