@@ -32,12 +32,12 @@ from enum import Enum
 from logging import INFO, basicConfig, getLogger
 from os import linesep
 from pathlib import Path
-from sys import argv, exit  # pylint: disable=W0622
+from sys import exit    # pylint: disable=W0622
 from time import sleep
 
 
 LOG_FORMAT = '[%(levelname)s] %(name)s: %(message)s'
-LOGGER = getLogger(Path(argv[0]).name)
+LOGGER = getLogger('sysrq-reboot')
 SYSRQ = Path('/proc/sys/kernel/sysrq')
 SYSRQ_TRIGGER = Path('/proc/sysrq-trigger')
 
