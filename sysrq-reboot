@@ -36,6 +36,21 @@ from sys import exit    # pylint: disable=W0622
 from time import sleep
 
 
+__all__ = [
+    'SYSRQ',
+    'SYSRQ_TRIGGER',
+    'Sysrq',
+    'set_sysrq',
+    'enable_sysrq',
+    'disable_sysrq',
+    'sysrq_trigger',
+    'sync',
+    'umount',
+    'reboot',
+    'reset'
+]
+
+
 LOG_FORMAT = '[%(levelname)s] %(name)s: %(message)s'
 LOGGER = getLogger('sysrq-reboot')
 SYSRQ = Path('/proc/sys/kernel/sysrq')
