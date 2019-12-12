@@ -31,12 +31,15 @@ from argparse import ArgumentParser
 from enum import Enum
 from logging import INFO, basicConfig, getLogger
 from os import linesep
-from sys import exit    # pylint: disable=W0622
+from pathlib import Path
+from sys import argv, exit  # pylint: disable=W0622
 from time import sleep
 
 
 LOG_FORMAT = '[%(levelname)s] %(name)s: %(message)s'
-LOGGER = getLogger('reset')
+LOGGER = getLogger(Path(argv[0]).name)
+SYSRQ = Path('/proc/sys/kernel/sysrq')
+SYSRQ_TRIGGER = Path('/proc/sysrq-trigger')
 
 
 class Sysrq(Enum):
@@ -50,7 +53,7 @@ class Sysrq(Enum):
 def set_sysrq(state):
     """Sets the sysrq function."""
 
-    with open('/proc/sys/kernel/sysrq', 'w') as file:
+    with SYSRQ.open('w') as file:
         file.write(str(int(state)) + linesep)
 
 
@@ -69,7 +72,7 @@ def disable_sysrq():
 def sysrq_trigger(sysrq):
     """Performs a sysrq trigger."""
 
-    with open('/proc/sysrq-trigger', 'w') as file:
+    with SYSRQ_TRIGGER.open('w') as file:
         file.write(sysrq.value + linesep)
 
 
