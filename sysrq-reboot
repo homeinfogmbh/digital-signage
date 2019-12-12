@@ -69,7 +69,7 @@ def disable_sysrq():
 def sysrq_trigger(sysrq):
     """Performs a sysrq trigger."""
 
-    with open('/proc/sysrq-trigger') as file:
+    with open('/proc/sysrq-trigger', 'w') as file:
         file.write(sysrq.value + linesep)
 
 
@@ -110,7 +110,7 @@ def get_args():
 
     parser = ArgumentParser(description='Reboot the system via sysrq.')
     parser.add_argument(
-        'interval', type=float, default=1,
+        '--interval', type=float, default=1,
         help='interval in seconds between sysrq triggers')
     return parser.parse_args()
 
