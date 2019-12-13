@@ -1,25 +1,39 @@
 #! /usr/bin/env python3
 """Print information about the system deployment."""
 
+from argparse import ArgumentParser
 from json import load
 from os import linesep
 from sys  import stderr
 from urllib.error import HTTPError
 from urllib.request import urlopen
 
+
+__all__ = [
+    'DEPLOYMENT_URL',
+    'Table',
+    'get_json',
+    'address_to_string',
+    'make_table'
+]
+
+
 DEPLOYMENT_URL = 'http://10.8.0.1/appcmd/deployment'
 BOLD = '\033[1m'
 CLEAR = '\033[0m'
+DESCRIPTION = 'Display system deployment information.'
+INDENT = ' '
+SPACING = '\t'
 
 
 class Table(dict):
     """Key-value table."""
 
-    def __new__(cls, indent=' ', spacing='\t'):     # pylint: disable=W0613
+    def __new__(cls, indent=INDENT, spacing=SPACING):   # pylint: disable=W0613
         """Constructor override."""
         return super().__new__(cls)
 
-    def __init__(self, indent=' ', spacing='  '):
+    def __init__(self, indent=INDENT, spacing=SPACING):
         """Initializes the key order list."""
         super().__init__()
         self.indent = indent
@@ -106,6 +120,9 @@ def make_table(json):
 
 def main():
     """Runs the script."""
+
+    parser = ArgumentParser(description=DESCRIPTION)
+    parser.parse_args()
 
     try:
         json = get_json(DEPLOYMENT_URL)
