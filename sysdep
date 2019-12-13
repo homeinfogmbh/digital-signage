@@ -22,7 +22,7 @@ DEPLOYMENT_URL = 'http://10.8.0.1/appcmd/deployment'
 BOLD = '\033[1m'
 CLEAR = '\033[0m'
 DESCRIPTION = 'Display system deployment information.'
-INDENT = ' '
+FILLING = ' '
 LOG_FORMAT = '[%(levelname)s] %(name)s: %(message)s'
 LOGGER = getLogger('sysdep')
 SPACING = '\t'
@@ -31,14 +31,14 @@ SPACING = '\t'
 class Table(dict):
     """Key-value table."""
 
-    def __new__(cls, indent=INDENT, spacing=SPACING):   # pylint: disable=W0613
+    def __new__(cls, filling=FILLING, spacing=SPACING):   # pylint: disable=W0613
         """Constructor override."""
         return super().__new__(cls)
 
-    def __init__(self, indent=INDENT, spacing=SPACING):
+    def __init__(self, filling=FILLING, spacing=SPACING):
         """Initializes the key order list."""
         super().__init__()
-        self.indent = indent
+        self.filling = filling
         self.spacing = spacing
         self._key_order = []
 
@@ -63,10 +63,10 @@ class Table(dict):
         maxlen = max(len(key) for key in self)
 
         for key, value in self.items():
-            indent_factor = maxlen - len(key)
-            indentation = self.indent * indent_factor
-            indentation += self.spacing
-            yield BOLD + f'{key}:' + CLEAR + indentation + str(value)
+            filling = maxlen - len(key)
+            filling = self.filling * filling
+            filling += self.spacing
+            yield BOLD + f'{key}:' + CLEAR + filling + str(value)
 
 
 def get_json(url):
@@ -86,10 +86,10 @@ def address_to_string(address):
     return f'{street} {house_number}, {zip_code} {city}'
 
 
-def make_table(json, indent=INDENT, spacing=SPACING):
+def make_table(json, filling=FILLING, spacing=SPACING):
     """Prints the deployment information from a JSON object."""
 
-    table = Table(indent=indent, spacing=spacing)
+    table = Table(filling=filling, spacing=spacing)
     table['Customer ID'] = json['customer']['id']
     table['Customer name'] = json['customer']['company']['name']
     table['Type'] = json['type']
@@ -125,9 +125,10 @@ def get_args():
 
     parser = ArgumentParser(description=DESCRIPTION)
     parser.add_argument(
-        '-i', '--indent', default=INDENT, help='table indentation')
+        '-f', '--filling', default=FILLING, help='first column filling')
     parser.add_argument(
-        '-s', '--spacing', default=SPACING, help='table spacing')
+        '-s', '--spacing', default=SPACING,
+        help='spacing between first and second column')
     parser.add_argument(
         '-v', '--verbose', action='store_true', help='enable verbose logging')
     return parser.parse_args()
@@ -145,7 +146,7 @@ def main():
         text = http_error.file.read().decode()
         LOGGER.error('Got HTTP error: %s.', text)
     else:
-        table = make_table(json, indent=args.indent, spacing=args.spacing)
+        table = make_table(json, filling=args.filling, spacing=args.spacing)
         print(table, flush=True)
 
 
