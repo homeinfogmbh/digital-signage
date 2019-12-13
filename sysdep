@@ -130,7 +130,7 @@ def get_args():
         '-s', '--spacing', default=SPACING, help='table spacing')
     parser.add_argument(
         '-v', '--verbose', action='store_true', help='enable verbose logging')
-    parser.parse_args()
+    return parser.parse_args()
 
 
 def main():
