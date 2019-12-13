@@ -3,8 +3,8 @@
 
 from argparse import ArgumentParser
 from json import load
+from logging import INFO, basicConfig, getLogger
 from os import linesep
-from sys  import stderr
 from urllib.error import HTTPError
 from urllib.request import urlopen
 
@@ -23,6 +23,8 @@ BOLD = '\033[1m'
 CLEAR = '\033[0m'
 DESCRIPTION = 'Display system deployment information.'
 INDENT = ' '
+LOG_FORMAT = '[%(levelname)s] %(name)s: %(message)s'
+LOGGER = getLogger('sysdep')
 SPACING = '\t'
 
 
@@ -123,12 +125,13 @@ def main():
 
     parser = ArgumentParser(description=DESCRIPTION)
     parser.parse_args()
+    basicConfig(format=LOG_FORMAT, level=INFO)
 
     try:
         json = get_json(DEPLOYMENT_URL)
     except HTTPError as http_error:
         text = http_error.file.read().decode()
-        print('Got HTTP error:', text, flush=True, file=stderr)
+        LOGGER.error('Got HTTP error: %s.', text)
     else:
         table = make_table(json)
         print(table, flush=True)
