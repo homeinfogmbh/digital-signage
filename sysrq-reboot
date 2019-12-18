@@ -68,21 +68,21 @@ class Sysrq(Enum):
     REBOOT = 'b'
 
 
-def set_sysrq(state):
+def set_sysrq(state: State):
     """Sets the sysrq function."""
 
     with SYSRQ.open('w') as file:
         file.write(state.value + linesep)
 
 
-def sysrq_trigger(sysrq):
+def sysrq_trigger(sysrq: Sysrq):
     """Performs a sysrq trigger."""
 
     with SYSRQ_TRIGGER.open('w') as file:
         file.write(sysrq.value + linesep)
 
 
-def reboot(interval=1):
+def reboot(interval: int = 1):
     """Reset."""
 
     set_sysrq(State.ENABLED)
