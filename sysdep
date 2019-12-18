@@ -31,11 +31,7 @@ SPACING = '\t'
 class Table(dict):
     """Key-value table."""
 
-    def __new__(cls, filling=FILLING, spacing=SPACING):   # pylint: disable=W0613
-        """Constructor override."""
-        return super().__new__(cls)
-
-    def __init__(self, filling=FILLING, spacing=SPACING):
+    def __init__(self, filling: str = FILLING, spacing: str = SPACING):
         """Initializes the key order list."""
         super().__init__()
         self.filling = filling
@@ -69,14 +65,14 @@ class Table(dict):
             yield BOLD + f'{key}:' + CLEAR + filling + str(value)
 
 
-def get_json(url):
+def get_json(url: str):
     """Returns a JSON response from the given URL."""
 
     with urlopen(url) as response:
         return load(response)
 
 
-def address_to_string(address):
+def address_to_string(address: dict):
     """Prints the respective address object."""
 
     street = address['street']
@@ -86,7 +82,7 @@ def address_to_string(address):
     return f'{street} {house_number}, {zip_code} {city}'
 
 
-def make_table(json, filling=FILLING, spacing=SPACING):
+def make_table(json, filling: str = FILLING, spacing: str = SPACING) -> Table:
     """Prints the deployment information from a JSON object."""
 
     table = Table(filling=filling, spacing=spacing)
