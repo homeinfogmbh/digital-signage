@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 #
-#  reset - Resets the system via sysrq
+#  sysrq-reboot - Reboots the system via sysrq
 #
 #  This file is part of digital-signage.
 #
@@ -25,7 +25,7 @@
 #  Maintainer: Richard Neumann <r dot neumann at homeinfo period de>
 #
 ###############################################################################
-"""Reset the system via sysrq."""
+"""Reboots the system via sysrq."""
 
 from argparse import ArgumentParser
 from enum import Enum
@@ -41,13 +41,8 @@ __all__ = [
     'SYSRQ_TRIGGER',
     'Sysrq',
     'set_sysrq',
-    'enable_sysrq',
-    'disable_sysrq',
     'sysrq_trigger',
-    'sync',
-    'umount',
     'reboot',
-    'reset'
 ]
 
 
@@ -72,18 +67,6 @@ def set_sysrq(state):
         file.write(str(int(state)) + linesep)
 
 
-def enable_sysrq():
-    """Enables the sysrq function."""
-
-    set_sysrq(True)
-
-
-def disable_sysrq():
-    """Enables the sysrq function."""
-
-    set_sysrq(False)
-
-
 def sysrq_trigger(sysrq):
     """Performs a sysrq trigger."""
 
@@ -91,31 +74,10 @@ def sysrq_trigger(sysrq):
         file.write(sysrq.value + linesep)
 
 
-def sync():
-    """Sends sync trigger."""
-
-    enable_sysrq()
-    sysrq_trigger(Sysrq.SYNC)
-
-
-def umount():
-    """Sends umount trigger."""
-
-    enable_sysrq()
-    sysrq_trigger(Sysrq.UMOUNT)
-
-
-def reboot():
-    """Sends reboot trigger."""
-
-    enable_sysrq()
-    sysrq_trigger(Sysrq.REBOOT)
-
-
-def reset(interval=1):
+def reboot(interval=1):
     """Reset."""
 
-    enable_sysrq()
+    set_sysrq(True)
 
     for sysrq in Sysrq:
         LOGGER.info('Sending: %s.', sysrq)
@@ -140,7 +102,7 @@ def main():
     args = get_args()
 
     try:
-        reset(interval=args.interval)
+        reboot(interval=args.interval)
     except PermissionError:
         LOGGER.error('You must be root to run this script.')
         exit(1)
