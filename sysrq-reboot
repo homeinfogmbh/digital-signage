@@ -39,6 +39,7 @@ from time import sleep
 __all__ = [
     'SYSRQ',
     'SYSRQ_TRIGGER',
+    'State',
     'Sysrq',
     'set_sysrq',
     'sysrq_trigger',
@@ -50,6 +51,13 @@ LOG_FORMAT = '[%(levelname)s] %(name)s: %(message)s'
 LOGGER = getLogger('sysrq-reboot')
 SYSRQ = Path('/proc/sys/kernel/sysrq')
 SYSRQ_TRIGGER = Path('/proc/sysrq-trigger')
+
+
+class State(Enum):
+    """Sysrq state."""
+
+    ENABLED = '1'
+    DISABLED = '0'
 
 
 class Sysrq(Enum):
@@ -64,7 +72,7 @@ def set_sysrq(state):
     """Sets the sysrq function."""
 
     with SYSRQ.open('w') as file:
-        file.write(str(int(state)) + linesep)
+        file.write(state.value + linesep)
 
 
 def sysrq_trigger(sysrq):
@@ -77,7 +85,7 @@ def sysrq_trigger(sysrq):
 def reboot(interval=1):
     """Reset."""
 
-    set_sysrq(True)
+    set_sysrq(State.ENABLED)
 
     for sysrq in Sysrq:
         LOGGER.info('Sending: %s.', sysrq)
