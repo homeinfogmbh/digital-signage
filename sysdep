@@ -65,14 +65,14 @@ class Table(dict):
             yield BOLD + f'{key}:' + CLEAR + filling + str(value)
 
 
-def get_json(url: str):
+def get_json(url: str) -> dict:
     """Returns a JSON response from the given URL."""
 
     with urlopen(url) as response:
         return load(response)
 
 
-def address_to_string(address: dict):
+def address_to_string(address: dict) -> str:
     """Prints the respective address object."""
 
     street = address['street']
