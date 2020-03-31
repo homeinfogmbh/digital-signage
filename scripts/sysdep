@@ -85,10 +85,8 @@ class Table(dict):
         maxlen = max(len(key) for key in self)
 
         for key, value in self.items():
-            filling = maxlen - len(key)
-            filling = self.filling * filling
-            filling += self.spacing
-            yield BOLD + f'{key}:' + CLEAR + filling + str(value)
+            filling = self.filling * (maxlen - len(key)) + self.spacing
+            yield f'{BOLD}{key}{CLEAR}:{filling}{value}'
 
 
 def get_json(url: str) -> dict:
