@@ -29,6 +29,5 @@ After=network.target
 Requires=network.target
 
 [Service]
-Type=oneshot
-ExecStart=/usr/bin/pacman -Sy archlinux-keyring --noconfirm --disable-download-timeout
+Type=simple
 ExecStart=/usr/bin/pacman -Syuw --noconfirm --disable-download-timeout

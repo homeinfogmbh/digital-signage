@@ -30,5 +30,6 @@ Requires=network.target
 Conflicts=pacman-update.service
 
 [Service]
-Type=simple
+Type=oneshot
+ExecStart=/usr/bin/pacman -S archlinux-keyring --noconfirm
 ExecStart=/usr/bin/pacman -Su --noconfirm
