@@ -1,4 +1,4 @@
-#  zz-openvpn-fix.hook - Fix ownership of OpenVPN configuration.
+#  openvpn-fix.hook - Fix ownership of OpenVPN configuration.
 #
 #  This file is part of digital-signage.
 #
