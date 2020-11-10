@@ -1,4 +1,4 @@
-#  openvpn-fix.hook - Fix ownership of OpenVPN configuration.
+#  99-digsig.hook - Fix ownership of digsig's user directories.
 #
 #  This file is part of digital-signage.
 #
@@ -18,7 +18,7 @@
 #  This unit provides a service to automatically login
 #  the digital signage user to a certain terminal.
 #
-#  (C) 2020: HOMEINFO - Digitale Informationssysteme GmbH
+#  (C) 2015-2020: HOMEINFO - Digitale Informationssysteme GmbH
 #
 #  Maintainer: Richard Neumann <r dot neumann at homeinfo period de>
 #
@@ -28,9 +28,9 @@
 Operation = Install
 Operation = Upgrade
 Type = Package
-Target = openvpn
+Target = digital-signage
 
 [Action]
-Description = Updating ownership of OpenVPN configuration...
+Description = Updating ownership of digital signage directories...
 When = PostTransaction
-Exec = /usr/bin/chown -R openvpn.network /etc/openvpn/client /etc/openvpn/server
+Exec = /usr/bin/chown -R digsig.digsig /var/lib/digsig /usr/share/digsig
