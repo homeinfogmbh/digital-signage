@@ -31,10 +31,10 @@ OLD_DIR="/usr/share/digsig"
 NEW_DIR="/var/lib/digsig"
 
 
-if test -L "${OLD_DIR}"; then
+test -L "${OLD_DIR}" && {
 	echo "Nothing to do."
 	exit 0
-fi
+}
 
 /usr/bin/cp -auv "${OLD_DIR}"/* "${NEW_DIR}"/ && {
 	/usr/bin/rm -rf "${OLD_DIR}" && {
