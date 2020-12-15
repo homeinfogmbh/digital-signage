@@ -31,7 +31,7 @@ OLD_DIR="/usr/share/digsig"
 NEW_DIR="/var/lib/digsig"
 
 
-test -L "${OLD_DIR}" && {
+/usr/bin/test -L "${OLD_DIR}" && {
 	echo "Nothing to do."
 	exit 0
 }
