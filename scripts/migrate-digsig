@@ -36,4 +36,10 @@ if test -L "${OLD_DIR}"; then
 	exit 0
 fi
 
-/usr/bin/cp -auv "${OLD_DIR}"/* "${NEW_DIR}"/
+/usr/bin/cp -auv "${OLD_DIR}"/* "${NEW_DIR}"/ && {
+	/usr/bin/rm -rf "${OLD_DIR}" && {
+		/usr/bin/ln -s "${NEW_DIR}" "${OLD_DIR}" && exit 0
+	}
+}
+
+exit 1
