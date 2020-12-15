@@ -32,5 +32,5 @@ Target = openvpn
 
 [Action]
 Description = Migrating digital signage data...
-When = PreTransaction
+When = PostTransaction
 Exec = /usr/share/libalpm/scripts/migrate-digsig
