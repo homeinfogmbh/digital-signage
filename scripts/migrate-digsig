@@ -31,14 +31,12 @@ OLD_DIR="/usr/share/digsig"
 NEW_DIR="/var/lib/digsig"
 
 
-/usr/bin/test -L "${OLD_DIR}" && {
+if [ -L "${OLD_DIR}" ]; then
 	exit 0	# Already migrated.
-}
+fi
 
-/usr/bin/cp -auv "${OLD_DIR}"/* "${NEW_DIR}"/ && {
-	/usr/bin/rm -rf "${OLD_DIR}" && {
-		/usr/bin/ln -s "${NEW_DIR}" "${OLD_DIR}" && exit 0
-	}
-}
-
-exit 1
+if [ -d "${OLD_DIR}" ]; then
+	cp -auv "${OLD_DIR}"/* "${NEW_DIR}"/
+	rm -rf "${OLD_DIR}"
+	ln -s "${NEW_DIR}" "${OLD_DIR}"
+fi
