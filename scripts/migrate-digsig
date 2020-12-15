@@ -38,5 +38,8 @@ fi
 if [ -d "${OLD_DIR}" ]; then
 	cp -auv "${OLD_DIR}"/* "${NEW_DIR}"/
 	rm -rf "${OLD_DIR}"
+fi
+
+if [ ! -e "${OLD_DIR}" ]; then
 	ln -s "${NEW_DIR}" "${OLD_DIR}"
 fi
