@@ -3,7 +3,6 @@
 
 from subprocess import CalledProcessError, check_output
 from pathlib import Path
-from sys import exit    # pylint: disable=W0622
 
 
 LOCKFILE = Path('/var/lib/pacman/db.lck')
@@ -20,21 +19,12 @@ def pidof(procname: str) -> set[int]:
         return set()
 
 
-def unlock() -> bool:
+def unlock() -> None:
     """Unlock pacman lockfile."""
 
     if LOCKFILE.is_file() and not pidof(PACMAN):
         LOCKFILE.unlink()
-        return True
-
-    return False
-
-
-def main():
-    """Runs the script."""
-
-    exit(0 if unlock() else 1)
 
 
 if __name__ == '__main__':
-    main()
+    unlock()
