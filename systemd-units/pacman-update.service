@@ -30,4 +30,5 @@ Requires=network.target
 
 [Service]
 Type=simple
+ExecStartPre=/usr/bin/pacman-unlock
 ExecStart=/usr/bin/pacman -Syuw --noconfirm --disable-download-timeout
