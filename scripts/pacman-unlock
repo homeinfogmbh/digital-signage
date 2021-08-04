@@ -1,0 +1,40 @@
+#! /usr/bin/env python3
+"""Unlock blocked pacman databases."""
+
+from subprocess import CalledProcessError, check_output
+from pathlib import Path
+from sys import exit    # pylint: disable=W0622
+
+
+LOCKFILE = Path('/var/lib/pacman/db.lck')
+PACMAN = 'pacman'
+PIDOF = '/bin/pidof'
+
+
+def pidof(procname: str) -> set[int]:
+    """Returns the PID of the respective process."""
+
+    try:
+        return set(map(int, check_output([PIDOF, procname], text=True).split()))
+    except CalledProcessError:
+        return set()
+
+
+def unlock() -> bool:
+    """Unlock pacman lockfile."""
+
+    if LOCKFILE.is_file() and not pidof(PACMAN):
+        LOCKFILE.unlink()
+        return True
+
+    return False
+
+
+def main():
+    """Runs the script."""
+
+    exit(0 if unlock() else 1)
+
+
+if __name__ == '__main__':
+    main()
