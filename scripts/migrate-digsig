@@ -31,8 +31,13 @@ OLD_DIR="/usr/share/digsig"
 NEW_DIR="/var/lib/digsig"
 
 
-if [ -L "${OLD_DIR}" ]; then
+if [ -L "${OLD_DIR}" ] && [ -d "${NEW_DIR}" ]; then
 	exit 0	# Already migrated.
+fi
+
+if [ ! -d "${NEW_DIR}" ]; then
+	mkdir "${NEW_DIR}"
+	chown digsig.digsig "${NEW_DIR}"
 fi
 
 if [ -d "${OLD_DIR}" ]; then
