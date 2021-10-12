@@ -75,6 +75,15 @@ class Table(dict):
         """Returns the table as string."""
         return linesep.join(self.lines())
 
+    @property
+    def maxlen(self):
+        """Returns the maximum key length."""
+        return max(len(key) for key in self)
+
+    def offset(self, key: str) -> str:
+        """Returns the offset string for the given key."""
+        return self.filling * (self.maxlen - len(key)) + self.spacing
+
     def items(self):
         """Yields ordered key value pairs."""
         for key in self._key_order:
@@ -82,11 +91,8 @@ class Table(dict):
 
     def lines(self):
         """Yields the string lines."""
-        maxlen = max(len(key) for key in self)
-
         for key, value in self.items():
-            filling = self.filling * (maxlen - len(key)) + self.spacing
-            yield f'{BOLD}{key}{CLEAR}:{filling}{value}'
+            yield f'{BOLD}{key}{CLEAR}:{self.offset(key)}{value}'
 
 
 def get_json(url: str) -> dict:
