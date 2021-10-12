@@ -150,13 +150,12 @@ def get_args():
     """Parses the command line arguments."""
 
     parser = ArgumentParser(description=DESCRIPTION)
-    parser.add_argument(
-        '-f', '--filling', default=FILLING, help='first column filling')
-    parser.add_argument(
-        '-s', '--spacing', default=SPACING,
-        help='spacing between first and second column')
-    parser.add_argument(
-        '-v', '--verbose', action='store_true', help='enable verbose logging')
+    parser.add_argument('-f', '--filling', default=FILLING,
+                        help='first column filling')
+    parser.add_argument('-s', '--spacing', default=SPACING,
+                        help='spacing between first and second column')
+    parser.add_argument('-v', '--verbose', action='store_true',
+                        help='enable verbose logging')
     return parser.parse_args()
 
 
