@@ -44,7 +44,7 @@ __all__ = [
 ]
 
 
-DEPLOYMENT_URL = 'http://10.8.0.1/appcmd/deployment'
+DEPLOYMENT_URL = 'http://appcmd.homeinfo.intra/appcmd/deployment'
 BOLD = '\033[1m'
 CLEAR = '\033[0m'
 DESCRIPTION = 'Display system deployment information.'
