@@ -27,7 +27,6 @@
 [Unit]
 Description=The x0vncserver
 Wants=xorg-server.service
-After=application.service
 
 [Service]
 Type=simple
