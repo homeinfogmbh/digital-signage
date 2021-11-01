@@ -1,0 +1,10 @@
+#! /bin/bash
+
+if [ ! -d /sys/firmware/efi ]; then
+	exit 0;
+fi
+
+if [ -d /boot/loader ]; then
+	bootctl install;
+	bootctl update;
+fi

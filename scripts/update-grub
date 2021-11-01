@@ -1,0 +1,14 @@
+#! /bin/bash
+
+if [ -d /sys/firmware/efi ]; then
+	exit 0;
+fi
+
+if [ ! -d /dev/sda ]; then
+	echo "/dev/sda not present. You'll need to update manually."
+	exit 1;
+fi
+
+if [ -f /boot/grub/grub.cfg ]; then
+	grub-install /dev/sda
+fi
