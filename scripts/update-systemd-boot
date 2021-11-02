@@ -5,5 +5,6 @@ if [ ! -d /sys/firmware/efi ]; then
 fi
 
 if [ -d /boot/loader ]; then
-	/usr/bin/bootctl update;
+	# Conpensate for possible I/O error on broken installations.
+	/usr/bin/bootctl update || /usr/bin/bootctl install;
 fi
