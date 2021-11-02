@@ -4,7 +4,7 @@ if [ -d /sys/firmware/efi ]; then
 	exit 0;		# Do not install on EFI systems.
 fi
 
-if [ ! -d /dev/sda ]; then
+if [ ! -b /dev/sda ]; then
 	echo "/dev/sda not present. You'll need to update manually."
 	exit 1;
 fi
