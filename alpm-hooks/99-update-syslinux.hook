@@ -1,4 +1,4 @@
-#  pacman-update.service - Downloads up-to-date databases and packages.
+#  99-update-syslinux.hook - Update Syslinux bootloader.
 #
 #  This file is part of digital-signage.
 #
@@ -18,17 +18,19 @@
 #  This unit provides a service to automatically login
 #  the digital signage user to a certain terminal.
 #
-#  (C) 2020: HOMEINFO - Digitale Informationssysteme GmbH
+#  (C) 2021: HOMEINFO - Digitale Informationssysteme GmbH
 #
 #  Maintainer: Richard Neumann <r dot neumann at homeinfo period de>
 #
 ###############################################################################
-[Unit]
-Description=Download up-to-date packages
-After=network.target
-Requires=network.target
 
-[Service]
-Type=simple
-ExecStartPre=/usr/bin/pacman-unlock
-ExecStart=/usr/bin/pacman -Syuw --noconfirm --disable-download-timeout
+[Trigger]
+Type = Package
+Operation = Install
+Operation = Upgrade
+Target = syslinux
+
+[Action]
+Description = Updating Syslinux bootloader...
+When = PostTransaction
+Exec = /usr/share/libalpm/scripts/update-syslinux

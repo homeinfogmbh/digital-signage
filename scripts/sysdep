@@ -5,6 +5,7 @@ from argparse import ArgumentParser
 from json import load
 from logging import DEBUG, INFO, basicConfig, getLogger
 from os import linesep
+from sys import exit    # pylint: disable=W0622
 from urllib.error import HTTPError
 from urllib.request import urlopen
 
@@ -18,7 +19,7 @@ __all__ = [
 ]
 
 
-DEPLOYMENT_URL = 'http://10.8.0.1/appcmd/deployment'
+DEPLOYMENT_URL = 'http://appcmd.homeinfo.intra/appcmd/deployment'
 BOLD = '\033[1m'
 CLEAR = '\033[0m'
 DESCRIPTION = 'Display system deployment information.'
@@ -49,6 +50,15 @@ class Table(dict):
         """Returns the table as string."""
         return linesep.join(self.lines())
 
+    @property
+    def maxlen(self):
+        """Returns the maximum key length."""
+        return max(len(key) for key in self)
+
+    def offset(self, key: str) -> str:
+        """Returns the offset string for the given key."""
+        return self.filling * (self.maxlen - len(key)) + self.spacing
+
     def items(self):
         """Yields ordered key value pairs."""
         for key in self._key_order:
@@ -56,11 +66,8 @@ class Table(dict):
 
     def lines(self):
         """Yields the string lines."""
-        maxlen = max(len(key) for key in self)
-
         for key, value in self.items():
-            filling = self.filling * (maxlen - len(key)) + self.spacing
-            yield f'{BOLD}{key}{CLEAR}:{filling}{value}'
+            yield f'{BOLD}{key}{CLEAR}:{self.offset(key)}{value}'
 
 
 def get_json(url: str) -> dict:
@@ -118,17 +125,16 @@ def get_args():
     """Parses the command line arguments."""
 
     parser = ArgumentParser(description=DESCRIPTION)
-    parser.add_argument(
-        '-f', '--filling', default=FILLING, help='first column filling')
-    parser.add_argument(
-        '-s', '--spacing', default=SPACING,
-        help='spacing between first and second column')
-    parser.add_argument(
-        '-v', '--verbose', action='store_true', help='enable verbose logging')
+    parser.add_argument('-f', '--filling', default=FILLING,
+                        help='first column filling')
+    parser.add_argument('-s', '--spacing', default=SPACING,
+                        help='spacing between first and second column')
+    parser.add_argument('-v', '--verbose', action='store_true',
+                        help='enable verbose logging')
     return parser.parse_args()
 
 
-def main():
+def main() -> int:
     """Runs the script."""
 
     args = get_args()
@@ -139,10 +145,12 @@ def main():
     except HTTPError as http_error:
         text = http_error.file.read().decode()
         LOGGER.error('Got HTTP error: %s.', text)
-    else:
-        table = make_table(json, filling=args.filling, spacing=args.spacing)
-        print(table, flush=True)
+        return 1
+
+    table = make_table(json, filling=args.filling, spacing=args.spacing)
+    print(table, flush=True)
+    return 0
 
 
 if __name__ == '__main__':
-    main()
+    exit(main())

@@ -1,4 +1,4 @@
-#  application.service Digital Signage Application autostart
+#  99-update-systemd-boot.hook - Update systemd-boot bootloader.
 #
 #  This file is part of digital-signage.
 #
@@ -18,33 +18,19 @@
 #  This unit provides a service to automatically login
 #  the digital signage user to a certain terminal.
 #
-#  (C) 2015-2020: HOMEINFO - Digitale Informationssysteme GmbH
+#  (C) 2021: HOMEINFO - Digitale Informationssysteme GmbH
 #
 #  Maintainer: Richard Neumann <r dot neumann at homeinfo period de>
 #
 ###############################################################################
 
-[Unit]
-Description=HOMEINFO Digital Signage Flash Application
-Wants=xorg-server.service
+[Trigger]
+Type = Package
+Operation = Install
+Operation = Upgrade
+Target = systemd
 
-[Service]
-User=digsig
-Group=digsig
-Environment=DISPLAY=:0
-StandardError=null
-ExecStart=/opt/adobe-air-sdk/bin/adl -nodebug /usr/lib/application-air/META-INF/AIR/application.xml /usr/lib/application-air
-ExecStartPost=/usr/bin/kiosk
-Restart=on-failure
-RestartSec=3
-# Make OOM killing likely.
-OOMScoreAdjust=1000
-# Enable cgroup memory limiting.
-MemoryAccounting=yes
-# Limit used memory to max. 60% of installed memory.
-MemoryMax=60%
-# Restart the application after one week.
-RuntimeMaxSec=1week
-
-[Install]
-WantedBy=graphical.target
+[Action]
+Description = Updating systemd-boot bootloader...
+When = PostTransaction
+Exec = /usr/share/libalpm/scripts/update-systemd-boot
