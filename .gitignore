@@ -2,3 +2,4 @@
 .anjuta_sym_db.db
 *~
 *.anjuta
+.idea/
