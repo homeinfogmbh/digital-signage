@@ -1,28 +1,3 @@
-#  pacman-upgrade.service - Installs up-to-date downloaded packages.
-#
-#  This file is part of digital-signage.
-#
-#  digital-signage is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  digital-signage is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with digital-signage.  If not, see <http://www.gnu.org/licenses/>.
-#
-#  This unit provides a service to automatically login
-#  the digital signage user to a certain terminal.
-#
-#  (C) 2020: HOMEINFO - Digitale Informationssysteme GmbH
-#
-#  Maintainer: Richard Neumann <r dot neumann at homeinfo period de>
-#
-###############################################################################
 [Unit]
 Description=Sysupgrade from downloaded packages
 After=network.target
