@@ -25,7 +25,6 @@ wait_for_x() {
 }
 
 
-# Disables screen blankening.
 disable_screen_blankening() {
     if ! ${XSET} s 0 0 &> /dev/null; then
         echo "Could not disable screen blankening (s 0 0)."
