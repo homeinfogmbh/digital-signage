@@ -1,5 +1,5 @@
 [Unit]
-Description=Weekly smartctl long test of %i
+Description=Weekly smartctl long test of %I
 
 [Timer]
 OnCalendar=weekly
