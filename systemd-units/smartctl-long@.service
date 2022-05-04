@@ -1,0 +1,6 @@
+[Unit]
+Description=Smartctl long test of %i
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/smartctl -t long %i
