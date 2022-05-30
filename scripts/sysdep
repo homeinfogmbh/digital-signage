@@ -147,8 +147,7 @@ def main() -> None:
     try:
         json = get_json(DEPLOYMENT_URL)
     except HTTPError as http_error:
-        text = http_error.file.read().decode()
-        LOGGER.error('Got HTTP error: %s.', text)
+        LOGGER.error('Got HTTP error: %s.', http_error)
         raise SystemExit(1)
 
     table = make_table(json, filling=args.filling, spacing=args.spacing)
