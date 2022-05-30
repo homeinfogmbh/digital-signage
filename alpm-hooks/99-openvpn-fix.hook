@@ -7,4 +7,4 @@ Target = openvpn
 [Action]
 Description = Updating ownership of OpenVPN configuration...
 When = PostTransaction
-Exec = /usr/bin/chown -R openvpn.network /etc/openvpn/client /etc/openvpn/server
+Exec = /usr/bin/chown -R openvpn:network /etc/openvpn/client /etc/openvpn/server
