@@ -1,11 +1,12 @@
 #! /usr/bin/env python3
 """Print information about the system deployment."""
 
-from argparse import ArgumentParser
+from argparse import ArgumentParser, Namespace
 from json import load
 from logging import DEBUG, INFO, basicConfig, getLogger
 from os import linesep
 from sys import exit    # pylint: disable=W0622
+from typing import Any, Iterator
 from urllib.error import HTTPError
 from urllib.request import urlopen
 
@@ -51,7 +52,7 @@ class Table(dict):
         return linesep.join(self.lines())
 
     @property
-    def maxlen(self):
+    def maxlen(self) -> int:
         """Returns the maximum key length."""
         return max(len(key) for key in self)
 
@@ -59,12 +60,12 @@ class Table(dict):
         """Returns the offset string for the given key."""
         return self.filling * (self.maxlen - len(key)) + self.spacing
 
-    def items(self):
+    def items(self) -> Iterator[tuple[str, Any]]:
         """Yields ordered key value pairs."""
         for key in self._key_order:
-            yield (key, self[key])
+            yield key, self[key]
 
-    def lines(self):
+    def lines(self) -> Iterator[str]:
         """Yields the string lines."""
         for key, value in self.items():
             yield f'{BOLD}{key}{CLEAR}:{self.offset(key)}{value}'
@@ -121,7 +122,7 @@ def make_table(json, filling: str = FILLING, spacing: str = SPACING) -> Table:
     return table
 
 
-def get_args():
+def get_args() -> Namespace:
     """Parses the command line arguments."""
 
     parser = ArgumentParser(description=DESCRIPTION)
