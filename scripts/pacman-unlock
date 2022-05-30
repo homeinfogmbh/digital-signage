@@ -24,9 +24,11 @@ def pidof(procname: str) -> set[int]:
     """Returns the PID of the respective process."""
 
     try:
-        return set(map(int, check_output([PIDOF, procname], text=True).split()))
+        text = check_output([PIDOF, procname], text=True)
     except CalledProcessError:
         return set()
+
+    return set(map(int, text.split()))
 
 
 def unlock() -> bool:
