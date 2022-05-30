@@ -27,17 +27,17 @@ wait_for_x() {
 
 disable_screen_blanking() {
     if ! ${XSET} s 0 0 &> /dev/null; then
-        echo "Could not disable screen blankening (s 0 0)."
+        echo "Could not disable screen blanking (s 0 0)."
         return 1
     fi
 
     if ! ${XSET} s noblank &> /dev/null; then
-        echo "Could not disable screen blankening (s noblank)."
+        echo "Could not disable screen blanking (s noblank)."
         return 2
     fi
 
     if ! ${XSET} s off &> /dev/null; then
-        echo "Could not disable screen blankening (s off)."
+        echo "Could not disable screen blanking (s off)."
         return 3
     fi
 
@@ -51,7 +51,7 @@ disable_screen_blanking() {
         return 5
     fi
 
-    echo "Successfully disabled screen blankening on ${DISPLAY}."
+    echo "Successfully disabled screen blanking on ${DISPLAY}."
     return 0
 }
 
