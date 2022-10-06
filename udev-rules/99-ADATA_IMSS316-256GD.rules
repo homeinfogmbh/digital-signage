@@ -1,1 +1,0 @@
-ACTION=="add", SUBSYSTEM=="block", ATTRS{model}=="ADATA_IMSS316-25", RUN{program}+="/usr/bin/hdparm -S 0 /dev/$name"
