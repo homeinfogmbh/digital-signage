@@ -1,5 +1,6 @@
 [Unit]
 Description=Log touch screen events
+ConditionPathExists=/dev/input/by-id/usb-Silicon_Works_Multi-touch_Device-event-if00
 
 [Service]
 ExecStart=/usr/bin/evtest /dev/input/by-id/usb-Silicon_Works_Multi-touch_Device-event-if00
