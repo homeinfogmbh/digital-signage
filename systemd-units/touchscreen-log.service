@@ -1,8 +1,8 @@
 [Unit]
-Description = Log touch screen events
+Description=Log touch screen events
 
 [Service]
-ExecStart = /usr/bin/evtest /dev/input/by-id/usb-Silicon_Works_Multi-touch_Device-event-if00
+ExecStart=/usr/bin/evtest /dev/input/by-id/usb-Silicon_Works_Multi-touch_Device-event-if00
 
 [Install]
-WantedBy = multi-user.target
+WantedBy=multi-user.target
