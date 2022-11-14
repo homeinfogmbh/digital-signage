@@ -7,7 +7,9 @@ Conflicts=html5ds.service
 [Service]
 User=digsig
 Group=digsig
+Environment=DISPLAY=:0
 ExecStart=/usr/bin/feh -F /usr/share/digital-signage/installation-instructions.jpg
+ExecStartPost=/usr/bin/kiosk
 Restart=on-failure
 RestartSec=3
 
