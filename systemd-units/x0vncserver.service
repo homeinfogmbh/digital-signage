@@ -3,6 +3,7 @@ Description=The x0vncserver
 Wants=xorg-server.service
 After=application.service
 After=html5ds.service
+After=installation-instructions.service
 
 [Service]
 Type=simple
