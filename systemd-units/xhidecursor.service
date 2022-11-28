@@ -1,0 +1,15 @@
+[Unit]
+Description=Hide cursor on X server
+Wants=xorg-server.service
+
+[Service]
+User=digsig
+Group=digsig
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/xhidecursor
+Restart=on-failure
+RestartSec=3
+SuccessExitStatus=SIGINT SIGTERM
+
+[Install]
+WantedBy=graphical.target
