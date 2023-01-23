@@ -1,0 +1,7 @@
+[Unit]
+Description=Fix read-only filesystems and reboot if required
+After=local-fs.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/fixrofs

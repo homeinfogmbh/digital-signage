@@ -1,0 +1,11 @@
+[Unit]
+Description=Hourly check for read-only filesystems
+After=local-fs.target
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+RandomizedDelaySec=30min
+
+[Install]
+WantedBy=timers.target

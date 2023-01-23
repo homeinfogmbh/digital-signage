@@ -1,0 +1,99 @@
+#! /usr/bin/env python3
+"""Repair read-only mounted filesystems and reboot if required."""
+
+from __future__ import annotations
+from pathlib import Path
+from subprocess import CalledProcessError, CompletedProcess, run
+from typing import Iterator, NamedTuple
+
+
+ERRORS_REPAIRED = 1
+NEEDS_REBOOT = 2
+MOUNTS = Path('/proc/mounts')
+TO_CHECK = [Path('/'), Path('/boot')]
+
+
+class Mount(NamedTuple):
+    """Mountpoint information."""
+
+    spec: str
+    file: Path
+    vfstype: str
+    mntopts: list[str]
+    freq: int
+    passno: int
+
+    @classmethod
+    def from_string(cls, line: str) -> Mount:
+        """Creates a Mount from a string representation."""
+        spec, file, vfstype, mntopts, freq, passno = line.split()
+        return cls(
+            spec, Path(file), vfstype, mntopts.split(','), int(freq),
+            int(passno)
+        )
+
+    @classmethod
+    def active(cls) -> Iterator[Mount]:
+        """Yield mounted devices."""
+        with open(MOUNTS, 'r', encoding='ascii') as mounts:
+            for mount in mounts:
+                yield cls.from_string(mount.strip())
+
+    @property
+    def is_read_only(self) -> bool:
+        """Return True iff the mount point is read-only."""
+        return 'ro' in self.mntopts
+
+
+    def fsck(self, yes: bool = False) -> CompletedProcess:
+        """Check mount points for ro."""
+        command = ['fsck']
+
+        if yes:
+            command.append('-y')
+
+        command.append(self.spec)
+        return run(command, check=True)
+
+
+def reboot() -> CompletedProcess:
+    """Reboot the system."""
+
+    return run(['systemctl', 'reboot'], check=True)
+
+
+def needs_reboot(
+        fsck_error: CalledProcessError,
+        reboot_needed: bool = False
+) -> bool:
+    """Checks if the fsck call needs a reboot."""
+
+    if fsck_error.returncode & NEEDS_REBOOT:
+        return True
+
+    if fsck_error.returncode & ERRORS_REPAIRED:
+        return reboot_needed
+
+    raise fsck_error
+
+
+def main():
+    """Check for read-only filesystems, repair
+    them and reboot if required.
+    """
+
+    reboot_needed = False
+
+    for mount in Mount.active():
+        if mount.file in TO_CHECK and mount.is_read_only:
+            try:
+                mount.fsck(yes=True)
+            except CalledProcessError as error:
+                reboot_needed = needs_reboot(error, reboot_needed)
+
+    if reboot_needed:
+        reboot()
+
+
+if __name__ == '__main__':
+    main()
