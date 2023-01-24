@@ -10,7 +10,7 @@ from typing import Iterator, NamedTuple
 ERRORS_REPAIRED = 1
 NEEDS_REBOOT = 2
 MOUNTS = Path('/proc/mounts')
-TO_CHECK = [Path('/'), Path('/boot')]
+TO_CHECK = {Path('/'), Path('/boot')}
 
 
 class Mount(NamedTuple):
